@@ -1,1 +1,75 @@
-<a class="game-button" href="tic-tac-toe.html">Play Tic Tac Toe</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games - Fun With Swayam</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: linear-gradient(-45deg, #ff6b6b, #fbc531, #70a1ff, #2ed573);
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: black;
+      text-shadow: 2px 2px 5px white;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: white;
+      margin-top: 0;
+      text-shadow: 1px 1px 3px black;
+    }
+
+    .game-button {
+      display: inline-block;
+      margin: 15px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      color: white;
+      background-color: black;
+      border: 2px solid white;
+      padding: 12px 25px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .game-button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 1rem;
+      color: white;
+      text-shadow: 1px 1px 3px black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Games</h1>
+  <p>Choose a game to play and have fun!</p>
+
+  <!-- ✅ Tic Tac Toe Button -->
+  <a class="game-button" href="tic-tac-toe.html">Play Tic Tac Toe</a>
+
+  <footer>
+    by Swayam Sherekar
+  </footer>
+</body>
+</html>
