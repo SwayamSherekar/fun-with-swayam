@@ -2,24 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FunWithSwayam</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fun Jokes - Fun with Swayam</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #333;
+    }
+    #joke-box {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+      max-width: 500px;
+      margin: auto;
+      font-size: 1.2rem;
+    }
+    .btn {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-hindi {
+      background-color: #ff9800;
+      color: white;
+    }
+    .btn-english {
+      background-color: #2196f3;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Welcome to FunWithSwayam</h1>
-    <p class="tagline">Your daily dose for timepass 💥</p>
-    <nav>
-      <a href="games.html">Games</a>
-      <a href="jokes.html">Jokes</a>
-      <a href="tools.html">Tools</a>
-      <a href="about.html">About</a>
-    </nav>
-  </header>
+  <h1>🤣 Your Daily Dose of Jokes 🤣</h1>
+  <div id="joke-box">Click a button below to laugh!</div>
+  <br />
+  <button class="btn btn-hindi" onclick="showHindiJoke()">Hindi Joke</button>
+  <button class="btn btn-english" onclick="showEnglishJoke()">English Joke</button>
 
-  <footer>
-    <p>by Swayam Sherekar</p>
-  </footer>
+  <script>
+    const hindiJokes = [
+      "टीचर: नालायक! स्कूल क्यों नहीं आया? 🤬<br>पप्पू: क्या बताऊं सर, दो बार आया था… दोनों बार स्कूल बंद था! 😂",
+      "पप्पू ATM गया, कार्ड अंदर डाला… स्क्रीन बोली: कृपया धक्का मारें! 🤯",
+      "डॉक्टर: तुम रोज भागते क्यों हो?<br>पागल: क्योंकि मोबाइल में लिखा था – run time error 😝"
+    ];
+
+    const englishJokes = [
+      "Why don’t scientists trust atoms? Because they make up everything! 😁",
+      "Teacher: What is the full form of ‘IDK’?<br>Student: I Don’t Know. 😵‍💫",
+      "Why did the computer go to therapy? It had too many bytes! 💻"
+    ];
+
+    function showHindiJoke() {
+      const joke = hindiJokes[Math.floor(Math.random() * hindiJokes.length)];
+      document.getElementById("joke-box").innerHTML = joke;
+    }
+
+    function showEnglishJoke() {
+      const joke = englishJokes[Math.floor(Math.random() * englishJokes.length)];
+      document.getElementById("joke-box").innerHTML = joke;
+    }
+  </script>
 </body>
 </html>
