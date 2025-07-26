@@ -7,20 +7,23 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f0f8ff;
+      background: #fefefe;
       text-align: center;
-      padding: 50px;
+      padding: 50px 20px;
     }
     h1 {
-      color: #333;
+      color: #444;
     }
-    #joke-box {
+    #joke-container, #setup-box, #punchline-box, #next-btn {
+      display: none;
+    }
+    #setup-box, #punchline-box {
       background: #fff;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px #ccc;
       max-width: 500px;
-      margin: auto;
+      margin: 20px auto;
       font-size: 1.2rem;
     }
     .btn {
@@ -39,36 +42,71 @@
       background-color: #2196f3;
       color: white;
     }
+    .btn-action {
+      background-color: #4caf50;
+      color: white;
+    }
   </style>
 </head>
 <body>
   <h1>🤣 Your Daily Dose of Jokes 🤣</h1>
-  <div id="joke-box">Click a button below to laugh!</div>
-  <br />
-  <button class="btn btn-hindi" onclick="showHindiJoke()">Hindi Joke</button>
-  <button class="btn btn-english" onclick="showEnglishJoke()">English Joke</button>
+
+  <div id="language-select">
+    <p>Select Joke Language:</p>
+    <button class="btn btn-hindi" onclick="startJokes('hindi')">Hindi Jokes</button>
+    <button class="btn btn-english" onclick="startJokes('english')">English Jokes</button>
+  </div>
+
+  <div id="joke-container">
+    <div id="setup-box"></div>
+    <button class="btn btn-action" onclick="showAnswer()">Show Answer</button>
+    <div id="punchline-box"></div>
+    <button id="next-btn" class="btn btn-action" onclick="showNextJoke()">Next Joke</button>
+  </div>
 
   <script>
-    const hindiJokes = [
-      "टीचर: नालायक! स्कूल क्यों नहीं आया? 🤬<br>पप्पू: क्या बताऊं सर, दो बार आया था… दोनों बार स्कूल बंद था! 😂",
-      "पप्पू ATM गया, कार्ड अंदर डाला… स्क्रीन बोली: कृपया धक्का मारें! 🤯",
-      "डॉक्टर: तुम रोज भागते क्यों हो?<br>पागल: क्योंकि मोबाइल में लिखा था – run time error 😝"
-    ];
+    const jokes = {
+      hindi: [
+        { q: "टीचर: बताओ पृथ्वी से आकाश तक जाने में कितना समय लगेगा?", a: "पप्पू: सर, एक भी सेकंड नहीं... क्यूंकि सीधा इंटरनेट से डाउनलोड हो जाएगा! 😂" },
+        { q: "पप्पू ATM गया, कार्ड डाला और लिखा आया - कृपया धक्का मारें!", a: "उसने पूरा ATM हिला दिया! 🤯" },
+        { q: "पप्पू: डॉक्टर साहब नींद नहीं आती", a: "डॉक्टर: मोबाइल बंद करके सो जाओ, व्हाट्सऐप वाले ख्वाब नहीं आते! 😂" }
+      ],
+      english: [
+        { q: "Why don’t scientists trust atoms?", a: "Because they make up everything! 😁" },
+        { q: "Why did the computer go to therapy?", a: "Because it had too many bytes! 💻" },
+        { q: "Teacher: What’s the full form of IDK?", a: "Student: I Don’t Know. Teacher: Same here! 😅" }
+      ]
+    };
 
-    const englishJokes = [
-      "Why don’t scientists trust atoms? Because they make up everything! 😁",
-      "Teacher: What is the full form of ‘IDK’?<br>Student: I Don’t Know. 😵‍💫",
-      "Why did the computer go to therapy? It had too many bytes! 💻"
-    ];
+    let currentLang = "";
+    let currentIndex = 0;
 
-    function showHindiJoke() {
-      const joke = hindiJokes[Math.floor(Math.random() * hindiJokes.length)];
-      document.getElementById("joke-box").innerHTML = joke;
+    function startJokes(lang) {
+      currentLang = lang;
+      currentIndex = 0;
+      document.getElementById('language-select').style.display = "none";
+      document.getElementById('joke-container').style.display = "block";
+      showSetup();
     }
 
-    function showEnglishJoke() {
-      const joke = englishJokes[Math.floor(Math.random() * englishJokes.length)];
-      document.getElementById("joke-box").innerHTML = joke;
+    function showSetup() {
+      const joke = jokes[currentLang][currentIndex];
+      document.getElementById('setup-box').innerHTML = joke.q;
+      document.getElementById('setup-box').style.display = "block";
+      document.getElementById('punchline-box').style.display = "none";
+      document.getElementById('next-btn').style.display = "none";
+    }
+
+    function showAnswer() {
+      const joke = jokes[currentLang][currentIndex];
+      document.getElementById('punchline-box').innerHTML = joke.a;
+      document.getElementById('punchline-box').style.display = "block";
+      document.getElementById('next-btn').style.display = "inline-block";
+    }
+
+    function showNextJoke() {
+      currentIndex = (currentIndex + 1) % jokes[currentLang].length;
+      showSetup();
     }
   </script>
 </body>
