@@ -1,112 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fun Jokes - Fun with Swayam</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FunWithSwayam — Jokes</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fefefe;
-      text-align: center;
-      padding: 50px 20px;
+    /* Background + layout */
+    :root {
+      --black: #000;
+      --white: #fff;
     }
+    html,body {
+      height: 100%;
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(270deg,#ff6ec4,#7873f5,#4ade80,#facc15);
+      background-size: 800% 800%;
+      animation: bgMove 12s ease infinite;
+      color: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      box-sizing: border-box;
+    }
+    @keyframes bgMove {
+      0% { background-position: 0% 50%;}
+      50% { background-position: 100% 50%;}
+      100% { background-position: 0% 50%;}
+    }
+
+    /* Card */
+    .card {
+      width: 100%;
+      max-width: 720px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      padding: 28px;
+      text-align: center;
+    }
+
     h1 {
+      margin: 0 0 10px 0;
+      font-size: 2rem;
+      color: var(--black);
+      letter-spacing: 1px;
+    }
+    p.tag {
+      margin: 0 0 18px 0;
       color: #444;
     }
-    #joke-container, #setup-box, #punchline-box, #next-btn {
-      display: none;
-    }
-    #setup-box, #punchline-box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-      max-width: 500px;
-      margin: 20px auto;
-      font-size: 1.2rem;
+
+    /* Controls */
+    .lang-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
     }
     .btn {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 5px;
+      background: var(--black);
+      color: var(--white);
+      border: 2px solid var(--white);
+      padding: 10px 18px;
+      border-radius: 10px;
       cursor: pointer;
+      font-size: 1rem;
+      transition: transform .14s ease, box-shadow .14s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .btn-hindi {
-      background-color: #ff9800;
-      color: white;
+    .btn:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+    .btn-outline { background: transparent; color: var(--black); border: 2px solid rgba(0,0,0,0.12); }
+
+    /* Joke box */
+    .joke-box {
+      margin: 18px auto;
+      max-width: 640px;
     }
-    .btn-english {
-      background-color: #2196f3;
-      color: white;
+    .joke-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
-    .btn-action {
-      background-color: #4caf50;
-      color: white;
+    .setup {
+      font-size: 1.15rem;
+      color: #111;
+      margin-bottom: 10px;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .answer {
+      display: none;
+      margin-top: 10px;
+      font-weight: 700;
+      color: #0a7b00;
+    }
+
+    /* action row */
+    .actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    #nextBtn { display: none; }
+
+    /* footer small */
+    .small {
+      margin-top: 14px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* responsive */
+    @media (max-width:480px) {
+      h1 { font-size: 1.5rem; }
+      .btn { padding: 10px 14px; font-size: 0.95rem; }
+      .joke-card { padding: 16px; }
     }
   </style>
 </head>
 <body>
-  <h1>🤣 Your Daily Dose of Jokes 🤣</h1>
+  <div class="card">
+    <h1>🤣 FunWithSwayam — Jokes</h1>
+    <p class="tag">Select language, then click <strong>Show Answer</strong> &amp; <strong>Next Joke</strong></p>
 
-  <div id="language-select">
-    <p>Select Joke Language:</p>
-    <button class="btn btn-hindi" onclick="startJokes('hindi')">Hindi Jokes</button>
-    <button class="btn btn-english" onclick="startJokes('english')">English Jokes</button>
-  </div>
+    <div class="lang-buttons">
+      <button class="btn" id="engBtn">English Jokes</button>
+      <button class="btn" id="hinBtn">Hindi Jokes (in English)</button>
+    </div>
 
-  <div id="joke-container">
-    <div id="setup-box"></div>
-    <button class="btn btn-action" onclick="showAnswer()">Show Answer</button>
-    <div id="punchline-box"></div>
-    <button id="next-btn" class="btn btn-action" onclick="showNextJoke()">Next Joke</button>
+    <div id="jokeSection" class="joke-box" aria-live="polite" style="display:none;">
+      <div class="joke-card">
+        <div id="setup" class="setup">Click a language above to start laughing!</div>
+        <div id="answer" class="answer"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="showAnswerBtn">Show Answer</button>
+        <button class="btn" id="nextBtn">Next Joke</button>
+      </div>
+
+      <div class="small">Tip: Press Next to skip. Jokes rotate — 20 per language.</div>
+    </div>
+
+    <div style="margin-top:18px;">
+      <a class="btn btn-outline" href="index.html">← Back to Home</a>
+    </div>
   </div>
 
   <script>
-    const jokes = {
-      hindi: [
-        { q: "टीचर: बताओ पृथ्वी से आकाश तक जाने में कितना समय लगेगा?", a: "पप्पू: सर, एक भी सेकंड नहीं... क्यूंकि सीधा इंटरनेट से डाउनलोड हो जाएगा! 😂" },
-        { q: "पप्पू ATM गया, कार्ड डाला और लिखा आया - कृपया धक्का मारें!", a: "उसने पूरा ATM हिला दिया! 🤯" },
-        { q: "पप्पू: डॉक्टर साहब नींद नहीं आती", a: "डॉक्टर: मोबाइल बंद करके सो जाओ, व्हाट्सऐप वाले ख्वाब नहीं आते! 😂" }
-      ],
-      english: [
-        { q: "Why don’t scientists trust atoms?", a: "Because they make up everything! 😁" },
-        { q: "Why did the computer go to therapy?", a: "Because it had too many bytes! 💻" },
-        { q: "Teacher: What’s the full form of IDK?", a: "Student: I Don’t Know. Teacher: Same here! 😅" }
-      ]
-    };
+    // 20 English jokes
+    const englishJokes = [
+      { q: "Why don't skeletons fight each other?", a: "They don't have the guts." },
+      { q: "Why was the math book sad?", a: "It had too many problems." },
+      { q: "Why did the computer go to the doctor?", a: "It caught a virus!" },
+      { q: "Why don’t eggs tell jokes?", a: "They'd crack each other up." },
+      { q: "What do you call fake spaghetti?", a: "An impasta." },
+      { q: "Why did the bicycle fall over?", a: "It was two-tired." },
+      { q: "Why can’t your nose be 12 inches long?", a: "Because then it would be a foot." },
+      { q: "Why did the scarecrow win an award?", a: "Because he was outstanding in his field." },
+      { q: "Why did the golfer bring two pairs of pants?", a: "In case he got a hole in one." },
+      { q: "Why don’t seagulls fly over the bay?", a: "Because then they’d be bagels." },
+      { q: "Why did the tomato turn red?", a: "Because it saw the salad dressing." },
+      { q: "What do you call cheese that isn’t yours?", a: "Nacho cheese." },
+      { q: "Why was the broom late?", a: "It swept in." },
+      { q: "Why did the belt go to jail?", a: "For holding up a pair of pants." },
+      { q: "Why can’t a leopard hide?", a: "Because he’s always spotted." },
+      { q: "Why did the phone go to therapy?", a: "It lost its connection." },
+      { q: "Why was the stadium so hot?", a: "Because all the fans left." },
+      { q: "Why did the banker switch careers?", a: "He lost interest." },
+      { q: "Why did the chicken join a band?", a: "Because it had the drumsticks." },
+      { q: "Why was the picture sent to jail?", a: "It was framed." }
+    ];
 
-    let currentLang = "";
+    // 20 Hindi jokes written in English letters
+    const hindiJokes = [
+      { q: "Ek aadmi doctor ke paas gaya aur bola: 'Doctor saab, mujhe bhoolne ki bimari ho gayi hai.'", a: "Doctor: 'Kab se?' Aadmi: 'Kab se kya?'" },
+      { q: "Teacher: 'Tum class me so kyu rahe ho?'", a: "Student: 'Sir, aapne hi to kaha tha sapno ko follow karo!'" },
+      { q: "Pappu: 'Mere sapne me police aayi thi.' Gappu: 'Phir?' Pappu: 'Phir kya... fine laga ke chali gayi!'", a: "" },
+      { q: "Wife: 'Mujhe ek aisa gift do jo 1 second me 0 se 100 ho jaye.'", a: "Husband: 'Lo weighing machine!'" },
+      { q: "Santa TV repair shop me: 'Mera TV band ho gaya hai.'", a: "Mechanic: 'Kya problem hai?' Santa: 'Remote ka battery khatam ho gaya hai!'" },
+      { q: "Pappu: 'Mummy, mera result aa gaya!'", a: "Mummy: 'Kya hua?' Pappu: 'Mujhe school ne ghar bula liya hai... permanently!'" },
+      { q: "Wife: 'Main tumhare bina mar jaungi!'", a: "Husband: 'Tumhara ye joke mujhe zinda rakhta hai!'" },
+      { q: "Santa: 'Mujhe ek half ticket do.'", a: "Conductor: 'Half ticket kis ke liye?' Santa: 'Apne liye... main adha pagal hoon!'" },
+      { q: "Boss: 'Tum late kyun aaye ho?'", a: "Employee: 'Sir, sapne me office aa gaya tha! Phir main late uth gaya!'" },
+      { q: "Girlfriend: 'Tum mujhe kab se pyaar karte ho?'", a: "Boyfriend: 'Jab se tumne free WiFi diya hai!'" },
+      { q: "Teacher: 'Tumne homework kyu nahi kiya?'", a: "Student: 'Sir, light chali gayi thi!' Teacher: 'Din me bhi?' Student: 'Din me to motivation chala gaya tha!'" },
+      { q: "Mummy: 'Khana khaya?'", a: "Beta: 'Nahi mummy, khaane ka mann nahi tha.' Mummy: 'Chal fir main kha leti hoon!'" },
+      { q: "Pappu ATM me gaya aur bola: 'Paise nikalne hain.'", a: "ATM: 'Paise to pehle dal!' Pappu: 'Achha toh aap bhi udhaar nahi dete!'" },
+      { q: "Wife: 'Mere liye kaunsa perfume laye ho?'", a: "Husband: 'Nahi laya... tumhara natural smell best hai!'" },
+      { q: "Santa: 'Main 2 din se bina paani ke hoon.'", a: "Banta: 'Kyun?' Santa: 'Filter ka button nahi mil raha!'" },
+      { q: "Girlfriend: 'Tum mujhe miss karte ho?'", a: "Boyfriend: 'Haan, par mostly calls miss hoti hai!'" },
+      { q: "Wife: 'Mere liye surprise hai?'", a: "Husband: 'Haan, aaj main khud khana banane wala hoon!'" },
+      { q: "Teacher: 'Padhai me dhyan do!'", a: "Student: 'Sir, attention to detail important hota hai... par detail boring hai!'" },
+      { q: "Doctor: 'Aapko kya problem hai?'", a: "Patient: 'Mujhe logo ke jokes bahut funny lagte hain!' Doctor: 'Wo toh achha hai!' Patient: 'Par sir, jab wo nahi bolte tab bhi!'" },
+      { q: "Santa: 'Main dieting pe hoon.'", a: "Banta: 'Kya khate ho?' Santa: 'Sirf Golgappe... kyunki paani ka calories nahi hota!'" }
+    ];
+
+    // state
+    let currentCategory = null; // 'english' or 'hindi'
     let currentIndex = 0;
+    let shownIndices = []; // to avoid immediate repeats
 
-    function startJokes(lang) {
-      currentLang = lang;
-      currentIndex = 0;
-      document.getElementById('language-select').style.display = "none";
-      document.getElementById('joke-container').style.display = "block";
-      showSetup();
+    // elements
+    const engBtn = document.getElementById('engBtn');
+    const hinBtn = document.getElementById('hinBtn');
+    const jokeSection = document.getElementById('jokeSection');
+    const setupEl = document.getElementById('setup');
+    const answerEl = document.getElementById('answer');
+    const showAnswerBtn = document.getElementById('showAnswerBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // attach events
+    engBtn.addEventListener('click', () => startCategory('english'));
+    hinBtn.addEventListener('click', () => startCategory('hindi'));
+    showAnswerBtn.addEventListener('click', showAnswer);
+    nextBtn.addEventListener('click', nextJoke);
+
+    function startCategory(cat) {
+      currentCategory = cat;
+      shownIndices = [];
+      jokeSection.style.display = 'block';
+      nextBtn.style.display = 'none';
+      showAnswerBtn.style.display = 'inline-block';
+      pickRandomAndShow();
     }
 
-    function showSetup() {
-      const joke = jokes[currentLang][currentIndex];
-      document.getElementById('setup-box').innerHTML = joke.q;
-      document.getElementById('setup-box').style.display = "block";
-      document.getElementById('punchline-box').style.display = "none";
-      document.getElementById('next-btn').style.display = "none";
+    function getArray() {
+      return currentCategory === 'english' ? englishJokes : hindiJokes;
+    }
+
+    function pickRandomIndex() {
+      const arr = getArray();
+      if (!arr || arr.length === 0) return 0;
+      if (shownIndices.length >= arr.length) shownIndices = []; // reset after all shown
+      let idx;
+      do {
+        idx = Math.floor(Math.random() * arr.length);
+      } while (shownIndices.includes(idx));
+      shownIndices.push(idx);
+      return idx;
+    }
+
+    function pickRandomAndShow() {
+      currentIndex = pickRandomIndex();
+      const arr = getArray();
+      const item = arr[currentIndex];
+      setupEl.innerHTML = item.q;
+      answerEl.innerHTML = '';
+      answerEl.style.display = 'none';
+      showAnswerBtn.style.display = 'inline-block';
+      nextBtn.style.display = 'none';
+      // small visual pulse
+      setupEl.parentElement.style.transform = 'scale(0.995)';
+      setTimeout(()=> { setupEl.parentElement.style.transform = 'scale(1)'; },150);
     }
 
     function showAnswer() {
-      const joke = jokes[currentLang][currentIndex];
-      document.getElementById('punchline-box').innerHTML = joke.a;
-      document.getElementById('punchline-box').style.display = "block";
-      document.getElementById('next-btn').style.display = "inline-block";
+      const arr = getArray();
+      const item = arr[currentIndex];
+      answerEl.innerHTML = item.a || "(no punchline)";
+      answerEl.style.display = 'block';
+      showAnswerBtn.style.display = 'none';
+      nextBtn.style.display = 'inline-block';
     }
 
-    function showNextJoke() {
-      currentIndex = (currentIndex + 1) % jokes[currentLang].length;
-      showSetup();
+    function nextJoke() {
+      pickRandomAndShow();
     }
   </script>
 </body>
